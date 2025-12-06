@@ -1,0 +1,132 @@
+pragma circom 2.0.0;
+
+include "circomlib/circuits/poseidon.circom";
+include "circomlib/circuits/comparators.circom";
+include "circomlib/circuits/bitify.circom";
+
+/*
+ * Balance Range Proof Circuit
+ * 
+ * This circuit proves that a user's balance meets certain criteria without
+ * revealing the exact balance. It verifies:
+ * 1. Balance is greater than or equal to a threshold
+ * 2. Balance is within valid range (0 to MAX_BALANCE)
+ * 3. Commitment to balance is valid
+ * 
+ * Private Inputs:
+ * - balance: Actual balance amount
+ * - salt: Random salt for commitment scheme
+ * 
+ * Public Inputs:
+ * - commitment: Poseidon(balance, salt)
+ * - threshold: Minimum balance required
+ * - maxBalance: Maximum valid balance (prevent overflow)
+ */
+
+template BalanceRangeProof() {
+    // Private inputs
+    signal input balance;
+    signal input salt;
+    
+    // Public inputs
+    signal input commitment;
+    signal input threshold;
+    signal input maxBalance;
+    
+    // Output
+    signal output isValid;
+    
+    // Step 1: Verify commitment
+    // commitment = Poseidon(balance, salt)
+    component commitmentHasher = Poseidon(2);
+    commitmentHasher.inputs[0] <== balance;
+    commitmentHasher.inputs[1] <== salt;
+    
+    component commitmentCheck = IsEqual();
+    commitmentCheck.in[0] <== commitmentHasher.out;
+    commitmentCheck.in[1] <== commitment;
+    
+    // Step 2: Check balance >= threshold
+    component thresholdCheck = GreaterEqThan(128); // Support up to 2^128
+    thresholdCheck.in[0] <== balance;
+    thresholdCheck.in[1] <== threshold;
+    
+    // Step 3: Check balance <= maxBalance (prevent overflow attacks)
+    component upperBoundCheck = LessEqThan(128);
+    upperBoundCheck.in[0] <== balance;
+    upperBoundCheck.in[1] <== maxBalance;
+    
+    // Step 4: Check balance >= 0 (non-negative)
+    // In circom, all signals are positive field elements, but we check explicitly
+    component nonNegativeCheck = GreaterEqThan(128);
+    nonNegativeCheck.in[0] <== balance;
+    nonNegativeCheck.in[1] <== 0;
+    
+    // Step 5: Combine all checks
+    // All conditions must be true (1)
+    component finalCheck = IsEqual();
+    finalCheck.in[0] <== commitmentCheck.out + 
+                          thresholdCheck.out + 
+                          upperBoundCheck.out + 
+                          nonNegativeCheck.out;
+    finalCheck.in[1] <== 4; // All 4 checks must pass
+    
+    isValid <== finalCheck.out;
+    
+    // Constraint: isValid must be 1
+    isValid === 1;
+}
+
+/*
+ * Optimized version with multiple thresholds (tier system)
+ * Proves user is in one of the specified tiers without revealing exact tier
+ */
+template BalanceRangeTiers(numTiers) {
+    signal input balance;
+    signal input salt;
+    signal input commitment;
+    signal input thresholds[numTiers]; // Ascending order
+    signal input maxBalance;
+    
+    signal output tierIndex; // Which tier (0 to numTiers-1, or numTiers if below all)
+    signal output isValid;
+    
+    // Verify commitment
+    component commitmentHasher = Poseidon(2);
+    commitmentHasher.inputs[0] <== balance;
+    commitmentHasher.inputs[1] <== salt;
+    
+    commitmentHasher.out === commitment;
+    
+    // Check which tier the balance falls into
+    component tierChecks[numTiers];
+    signal tierResults[numTiers];
+    
+    for (var i = 0; i < numTiers; i++) {
+        tierChecks[i] = GreaterEqThan(128);
+        tierChecks[i].in[0] <== balance;
+        tierChecks[i].in[1] <== thresholds[i];
+        tierResults[i] <== tierChecks[i].out;
+    }
+    
+    // Calculate tier index (highest threshold met)
+    signal runningSum[numTiers + 1];
+    runningSum[0] <== 0;
+    
+    for (var i = 0; i < numTiers; i++) {
+        runningSum[i + 1] <== runningSum[i] + tierResults[i];
+    }
+    
+    tierIndex <== runningSum[numTiers];
+    
+    // Valid if balance <= maxBalance
+    component upperBoundCheck = LessEqThan(128);
+    upperBoundCheck.in[0] <== balance;
+    upperBoundCheck.in[1] <== maxBalance;
+    
+    isValid <== upperBoundCheck.out;
+    isValid === 1;
+}
+
+// Main component for simple threshold check
+component main {public [commitment, threshold, maxBalance]} = BalanceRangeProof();

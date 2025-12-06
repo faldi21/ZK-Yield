@@ -1,0 +1,44 @@
+{
+  "name": "zk-yield",
+  "version": "0.1.0",
+  "description": "Privacy-Preserving Compliant Yield Aggregator on Mantle Network",
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/zk-yield.git"
+  },
+  "keywords": [
+    "zero-knowledge",
+    "defi",
+    "mantle",
+    "yield-aggregator",
+    "privacy",
+    "compliance",
+    "zk-snark",
+    "circom"
+  ],
+  "workspaces": [
+    "circuits",
+    "frontend"
+  ],
+  "scripts": {
+    "install:all": "npm install && cd circuits && npm install && cd ../frontend && npm install",
+    "build:circuits": "cd circuits && npm run build",
+    "build:contracts": "cd contracts && forge build",
+    "build:frontend": "cd frontend && npm run build",
+    "build:all": "npm run build:circuits && npm run build:contracts && npm run build:frontend",
+    "test:circuits": "cd circuits && npm test",
+    "test:contracts": "cd contracts && forge test",
+    "test:frontend": "cd frontend && npm test",
+    "test:all": "npm run test:circuits && npm run test:contracts && npm run test:frontend",
+    "dev:frontend": "cd frontend && npm run dev",
+    "deploy:testnet": "cd contracts && forge script script/Deploy.s.sol --rpc-url $MANTLE_SEPOLIA_RPC --broadcast",
+    "deploy:mainnet": "cd contracts && forge script script/Deploy.s.sol --rpc-url $MANTLE_MAINNET_RPC --broadcast",
+    "clean": "rm -rf circuits/build contracts/out frontend/.next"
+  },
+  "devDependencies": {
+    "prettier": "^3.1.0",
+    "prettier-plugin-solidity": "^1.2.0"
+  }
+}

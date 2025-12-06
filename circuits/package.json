@@ -1,0 +1,35 @@
+{
+  "name": "zk-yield-circuits",
+  "version": "0.1.0",
+  "description": "Zero-knowledge circuits for ZK-Yield protocol",
+  "main": "index.js",
+  "scripts": {
+    "build": "bash scripts/build-circuits.sh",
+    "build:kyc": "bash scripts/build-kyc-circuit.sh",
+    "build:balance": "bash scripts/build-balance-circuit.sh",
+    "build:yield": "bash scripts/build-yield-circuit.sh",
+    "test": "mocha test/**/*.test.js --timeout 100000",
+    "test:kyc": "mocha test/kyc-verification.test.js --timeout 100000",
+    "test:balance": "mocha test/balance-range.test.js --timeout 100000",
+    "test:yield": "mocha test/yield-source.test.js --timeout 100000",
+    "clean": "rm -rf build/* artifacts/*",
+    "setup:ptau": "bash scripts/setup-powers-of-tau.sh"
+  },
+  "keywords": [
+    "circom",
+    "snarkjs",
+    "zero-knowledge",
+    "zk-snark"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "snarkjs": "^0.7.5"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "circom_tester": "^0.0.24",
+    "mocha": "^10.2.0"
+  }
+}

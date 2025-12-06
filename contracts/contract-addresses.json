@@ -1,0 +1,14 @@
+{
+  "network": "Base Sepolia",
+  "chainId": 84532,
+  "contracts": {
+    "kycVerifier": "0x75aB70aB18665FAf84171952d84A2E122cE12e24",
+    "balanceVerifier": "0x6B52359bF7Cd14FbCcAcdb4fb1a4F8DEaF147BcA",
+    "complianceManager": "0xb7f565874DcB0F4B5718490D25f9A7Ebc8240A86",
+    "strategyVault": "0xcF58A15E61CA885cbb158e8Ea8c2224C59D8BA45"
+  },
+  "explorer": "https://sepolia.basescan.org",
+  "rpc": "https://sepolia.base.org",
+  "deploymentBlock": 34594949,
+  "deploymentDate": "2025-12-05"
+}

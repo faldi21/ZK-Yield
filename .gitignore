@@ -1,0 +1,88 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+circuits/build/
+circuits/dist/
+contracts/out/
+contracts/cache/
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Circuit artifacts
+*.r1cs
+*.wasm
+*.sym
+*.zkey
+*.ptau
+*.wtns
+powersoftau_*
+
+# Foundry
+broadcast/
+cache_forge/
+out/
+
+# Test coverage
+coverage/
+*.lcov
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Logs
+logs/
+*.log
+
+# Keys (NEVER commit private keys!)
+*.key
+*.pem
+private_keys/
+
+# Documentation builds
+docs/_build/
+site/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# TypeScript
+*.tsbuildinfo
+
+# Secrets
+secrets/
+.secrets/
+
+#Notes
+*.md
+.md
+*.md*
+wallet.txt
+.txt
+.tar.gz

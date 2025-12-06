@@ -1,0 +1,7 @@
+{
+  "credentialHash": "12345",
+  "salt": "67890",
+  "jurisdictionCode": "1",
+  "allowedJurisdictionCode": "1",
+  "commitment": "7275757275"
+}
