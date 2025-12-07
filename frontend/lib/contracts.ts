@@ -1,4 +1,3 @@
-// Contract addresses and configuration for ZK-Yield
 export const CONTRACTS = {
   complianceManager: '0xb7f565874DcB0F4B5718490D25f9A7Ebc8240A86',
   strategyVault: '0xcF58A15E61CA885cbb158e8Ea8c2224C59D8BA45',
@@ -21,6 +20,18 @@ export const COMPLIANCE_MANAGER_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [
+      { name: 'a', type: 'uint256[2]' },
+      { name: 'b', type: 'uint256[2][2]' },
+      { name: 'c', type: 'uint256[2]' },
+      { name: 'commitment', type: 'uint256' },
+    ],
+    name: 'grantCompliance',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
 ] as const;
 
 export const STRATEGY_VAULT_ABI = [
@@ -32,10 +43,43 @@ export const STRATEGY_VAULT_ABI = [
     type: 'function',
   },
   {
-    inputs: [{ name: 'user', type: 'address' }],
-    name: 'balanceOf',
+    inputs: [],
+    name: 'totalShares',
     outputs: [{ name: '', type: 'uint256' }],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ name: 'user', type: 'address' }],
+    name: 'shares',
+    outputs: [{ name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'minBalanceThreshold',
+    outputs: [{ name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { name: 'a', type: 'uint256[2]' },
+      { name: 'b', type: 'uint256[2][2]' },
+      { name: 'c', type: 'uint256[2]' },
+      { name: 'commitment', type: 'uint256' },
+    ],
+    name: 'deposit',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [{ name: 'sharesToBurn', type: 'uint256' }],
+    name: 'withdraw',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
 ] as const;
