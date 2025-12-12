@@ -3,8 +3,6 @@
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ArrowUpRight, Layers, Lock, Repeat } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-// Data protokol dengan ikon spesifik
 const protocols = [
   { 
     name: 'Aave V3', 
@@ -32,13 +30,12 @@ const protocols = [
   },
 ];
 
-// Konfigurasi Animasi (Framer Motion)
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2 // Delay 0.2 detik antar kartu
+      staggerChildren: 0.2
     }
   }
 };
@@ -55,13 +52,11 @@ const itemVariants = {
 export function ProtocolShowcase() {
   return (
     <section className="py-32 bg-background relative">
-      
-      {/* Background Glow Halus */}
+
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#8B5CF6]/5 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       <div className="container mx-auto px-6 relative z-10">
-        
-        {/* Header Section */}
+
         <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -88,19 +83,17 @@ export function ProtocolShowcase() {
           </motion.button>
         </div>
 
-        {/* Grid Kartu dengan Animasi Stagger */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }} // Animasi mulai saat elemen masuk 100px ke layar
+          viewport={{ once: true, margin: "-100px" }}
           className="grid md:grid-cols-3 gap-6"
         >
           {protocols.map((p, i) => (
             <motion.div key={i} variants={itemVariants as any}>
               <GlassCard className="group cursor-pointer min-h-[260px] flex flex-col justify-between hover:bg-[#8B5CF6]/5 hover:border-[#8B5CF6]/30 transition-all duration-300">
-                
-                {/* Bagian Atas: Badge Tipe & Ikon Panah */}
+
                 <div className="flex justify-between items-start">
                   <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono font-medium ${p.color}`}>
                     {p.icon}
@@ -110,21 +103,18 @@ export function ProtocolShowcase() {
                     <ArrowUpRight size={18} />
                   </div>
                 </div>
-                
-                {/* Bagian Tengah: Nama Protokol */}
+
                 <div className="mt-8">
                   <h3 className="text-2xl font-bold text-[#F1F7F6] mb-1 group-hover:text-[#8B5CF6] transition-colors">
                     {p.name}
                   </h3>
                 </div>
 
-                {/* Bagian Bawah: Stats (APY & TVL) */}
                 <div className="flex justify-between items-end border-t border-white/10 pt-6 mt-6">
                   <div>
                     <div className="text-[#94A3B8] text-[10px] uppercase tracking-wider mb-1 font-semibold">
                       Variable APY
                     </div>
-                    {/* Menggunakan Gradient Text untuk Angka APY agar menonjol tapi tidak hijau neon */}
                     <div className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-[#3B82F6] to-[#06B6D4]">
                       {p.apy}
                     </div> 

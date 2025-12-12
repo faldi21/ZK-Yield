@@ -5,14 +5,12 @@ import { XCircle, CheckCircle2, Shield, AlertTriangle } from 'lucide-react';
 export function ProblemSolution() {
   return (
     <section className="py-32 bg-background relative">
-      
-      {/* Background Decor */}
+
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#8B5CF6]/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto items-center">
-          
-          {/* PROBLEM CARD (The Old Way) */}
+
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -41,7 +39,6 @@ export function ProblemSolution() {
             </ul>
           </motion.div>
 
-          {/* SOLUTION CARD (The ZK Way) */}
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}

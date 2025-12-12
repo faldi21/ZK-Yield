@@ -2,11 +2,9 @@
 
 import React, { useEffect, useMemo, useRef, ReactNode, RefObject } from 'react';
 import { Lock, Zap, TrendingUp } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// --- 1. SETUP & KOMPONEN SCROLL FLOAT ---
 gsap.registerPlugin(ScrollTrigger);
 
 interface ScrollFloatProps {
@@ -113,7 +111,6 @@ export function HowItWorks() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Parallax effect pada background decor
       if (bgDecorRef.current) {
         gsap.to(bgDecorRef.current,
           {
@@ -129,7 +126,6 @@ export function HowItWorks() {
           }
         );
       }
-      // Animasi Title & Description dengan scroll
       if (titleRef.current) {
         gsap.fromTo(titleRef.current,
           { opacity: 0, y: 30 },
@@ -166,7 +162,6 @@ export function HowItWorks() {
         );
       }
 
-      // Animasi Garis Progress
       gsap.fromTo(lineRef.current,
         { scaleX: 0, scaleY: 0 },
         {
@@ -182,14 +177,12 @@ export function HowItWorks() {
         }
       );
 
-      // Animasi untuk setiap step dengan stagger dan parallax
       stepRefs.current.forEach((stepEl, i) => {
         if (!stepEl) return;
 
         const iconEl = iconRefs.current[i];
         const cardEl = cardRefs.current[i];
 
-        // Animasi Icon dengan scale dan rotation
         if (iconEl) {
           gsap.fromTo(iconEl,
             { 
@@ -215,7 +208,6 @@ export function HowItWorks() {
           );
         }
 
-        // Animasi Card dengan parallax dan fade
         if (cardEl) {
           gsap.fromTo(cardEl,
             { 
@@ -238,7 +230,6 @@ export function HowItWorks() {
             }
           );
 
-          // Parallax effect saat scroll
           gsap.to(cardEl,
             {
               y: -20,
@@ -263,13 +254,6 @@ export function HowItWorks() {
       id="how-it-works" 
       className="py-32 bg-background relative overflow-hidden"
     >
-      
-      {/* Background Decor - Dihapus/dimatikan sesuai instruksi di kode asli */}
-      {/* <div 
-        ref={bgDecorRef}
-        className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full pointer-events-none" 
-      />
-      */}
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-20">
@@ -288,22 +272,12 @@ export function HowItWorks() {
         </div>
 
         <div className="relative grid md:grid-cols-3 gap-12 md:gap-8">
-          
-          {/* --- THE MOVING LINE (Garis Berjalan) --- */}
-          <div className="absolute z-0
-            /* Mobile Styles: Vertikal, tengah, dari tengah kotak pertama ke tengah kotak terakhir */
-            left-1/2 top-[48px] bottom-auto h-[calc(100%-96px)] w-[2px] -translate-x-1/2
-            /* Desktop Styles: Horizontal, atas, dari tengah kotak pertama (16.666%) ke tengah kotak terakhir (83.333%) */
-            md:left-[16.666%] md:top-[60px] md:w-[66.668%] md:h-[2px] md:translate-x-0 md:bottom-auto md:right-auto
-            bg-[#1e1b2e]" // Warna track (abu-abu gelap)
+          <div className="absolute z-0 left-1/2 top-[48px] bottom-auto h-[calc(100%-96px)] w-[2px] -translate-x-1/2 md:left-[16.666%] md:top-[60px] md:w-[66.668%] md:h-[2px] md:translate-x-0 md:bottom-auto md:right-auto bg-[#1e1b2e]"
           >
-            {/* The Progress Fill (Garis Berwarna yang bergerak) */}
             <div 
               ref={lineRef}
-              // Mengganti 'bg-linear-to-r' menjadi 'bg-gradient-to-r' (standar Tailwind)
               className="w-full h-full bg-linear-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] origin-top md:origin-left"
               style={{ 
-                // Kita atur default scale 0 via CSS agar tidak glitch sebelum JS load
                 transform: 'scale(0)' 
               }} 
             />
@@ -315,29 +289,20 @@ export function HowItWorks() {
               ref={(el) => { stepRefs.current[i] = el; }}
               className="relative z-10 flex flex-col items-center text-center group"
             >
-              {/* Icon Circle Container */}
               <div
                 ref={(el) => { iconRefs.current[i] = el; }}
-                // **PERBAIKAN:** Hapus 'bg-background' dari sini, agar border gradient tidak tertutup
-                // Tambahkan 'will-change-transform' untuk rendering GSAP yang lebih halus
                 className={`w-24 h-24 rounded-2xl p-[2px] mb-8 relative z-20 transition-transform duration-300 group-hover:-translate-y-2 will-change-transform`}
               >
-                {/* Border Gradient tanpa glow */}
-                {/* Mengganti 'bg-linear-to-r' menjadi 'bg-gradient-to-r' */}
                 <div className={`absolute inset-0 rounded-2xl bg-linear-to-r ${step.color}`} />
-                
-                {/* Inner Container (Ini yang mempertahankan warna background halaman) */}
                 <div className="relative w-full h-full bg-background rounded-xl flex items-center justify-center overflow-hidden z-10">
                     {step.icon}
                 </div>
               </div>
 
-              {/* Content Card */}
               <div
                 ref={(el) => { cardRefs.current[i] = el; }}
                 className="bg-[#0A051E]/80 backdrop-blur-sm border border-white/5 p-6 rounded-2xl hover:bg-[#120B2E] transition-colors duration-300 w-full min-h-[160px] flex flex-col justify-start mt-4"
               >
-                {/* Judul Step menggunakan efek ScrollFloat */}
                 <div className="mb-3 h-8 flex items-center justify-center">
                   <ScrollFloat 
                     animationDuration={1.2} 

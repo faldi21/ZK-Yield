@@ -1,6 +1,6 @@
 'use client';
 
-//import Galaxy from '@/components/3d/Galaxy';
+import Galaxy from '@/components/3d/Galaxy';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-backgroundd">
-      {/* <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0">
         <Galaxy 
           mouseRepulsion={true}
           mouseInteraction={true}
@@ -21,7 +21,7 @@ export function Hero() {
           transparent={true} 
         />
         <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-background/50 pointer-events-none" />
-      </div> */}
+      </div>
 
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center justify-center pt-20 pointer-events-none">
 

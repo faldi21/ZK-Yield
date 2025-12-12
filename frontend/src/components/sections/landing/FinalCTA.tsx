@@ -5,13 +5,10 @@ import { motion } from 'framer-motion';
 export function FinalCTA() {
   return (
     <section className="py-40 px-6 relative overflow-hidden bg-background flex flex-col items-center justify-center">
-      
-      {/* Central Warp Core Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#8B5CF6]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#3B82F6]/10 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="container mx-auto max-w-5xl text-center relative z-10">
-        
         <motion.h2 
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -47,7 +44,6 @@ export function FinalCTA() {
           </MagneticButton>
         </motion.div>
 
-        {/* Stats Grid - Minimalist */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 border-t border-white/10 pt-16">
           <StatItem label="Network" value="Mantle Sepolia" color="text-[#3B82F6]" />
           <StatItem label="Gas / TX" value="< $0.01" color="text-[#A855F7]" />
