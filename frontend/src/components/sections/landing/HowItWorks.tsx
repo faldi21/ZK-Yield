@@ -1,247 +1,74 @@
 'use client';
-
-import React, { useEffect, useMemo, useRef, ReactNode, RefObject } from 'react';
-import { Lock, Zap, TrendingUp } from 'lucide-react';
+import React, { useLayoutEffect, useRef } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface ScrollFloatProps {
-  children: ReactNode;
-  scrollContainerRef?: RefObject<HTMLElement>;
-  containerClassName?: string;
-  textClassName?: string;
-  animationDuration?: number;
-  ease?: string;
-  scrollStart?: string;
-  scrollEnd?: string;
-  stagger?: number;
-}
-
-const ScrollFloat: React.FC<ScrollFloatProps> = ({
-  children,
-  scrollContainerRef,
-  containerClassName = '',
-  textClassName = '',
-  animationDuration = 1,
-  ease = 'back.inOut(2)',
-  scrollStart = 'top bottom-=15%',
-  scrollEnd = 'bottom center',
-  stagger = 0.03
-}) => {
-  const containerRef = useRef<HTMLHeadingElement>(null);
-  
-  const splitText = useMemo(() => {
-    const text = typeof children === 'string' ? children : '';
-    return text.split('').map((char, index) => (
-      <span className="inline-block" key={index}>
-        {char === ' ' ? '\u00A0' : char}
-      </span>
-    ));
-  }, [children]);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const scroller = scrollContainerRef?.current || window;
-    const charElements = el.querySelectorAll('.inline-block');
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(charElements, 
-        { opacity: 0, yPercent: 120, scaleY: 2.3, scaleX: 0.7, transformOrigin: '50% 0%' },
-        {
-          duration: animationDuration,
-          ease: ease,
-          opacity: 1,
-          yPercent: 0,
-          scaleY: 1,
-          scaleX: 1,
-          stagger: stagger,
-          scrollTrigger: {
-            trigger: el,
-            scroller,
-            start: scrollStart,
-            end: scrollEnd,
-            scrub: 0.3
-          }
-        }
-      );
-    }, containerRef);
-    return () => ctx.revert();
-  }, [animationDuration, ease, scrollStart, scrollEnd, stagger, scrollContainerRef]);
-
-  return (
-    <div ref={containerRef} className={containerClassName}>
-      <span className={`inline-block leading-[1.2] ${textClassName}`}>{splitText}</span>
-    </div>
-  );
-};
-
 const steps = [
   {
-    icon: <Lock className="text-white" size={28} />,
-    title: 'Generate Proof',
+    id: 1,
     desc: 'Buat bukti Zero-Knowledge secara lokal. Private key & data rahasia tidak pernah meninggalkan perangkat Anda.',
-    color: 'from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6]'
   },
   {
-    icon: <Zap className="text-white" size={28} />,
-    title: 'Verify On-Chain',
+    id: 2,
     desc: 'Smart contract memverifikasi validitas bukti matematis dalam hitungan milidetik tanpa mengetahui data aslinya.',
-    color: 'from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6]'
   },
   {
-    icon: <TrendingUp className="text-white" size={28} />,
-    title: 'Earn Yields',
+    id: 3,
     desc: 'Dapatkan akses instan ke strategi DeFi institusional dengan APY tinggi secara aman dan anonim.',
-    color: 'from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6]'
   }
 ];
 
 export function HowItWorks() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lineTrackRef = useRef<HTMLDivElement>(null);
+  const lineFillRef = useRef<HTMLDivElement>(null);
+  const circleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
-  const bgDecorRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      if (bgDecorRef.current) {
-        gsap.to(bgDecorRef.current,
-          {
-            y: -100,
-            scale: 1.2,
-            opacity: 0.3,
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-            }
-          }
-        );
-      }
-      if (titleRef.current) {
-        gsap.fromTo(titleRef.current,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: titleRef.current,
-              start: "top bottom-=100",
-              end: "top center",
-              scrub: 0.5,
-            }
-          }
-        );
-      }
+      circleRefs.current.forEach((circle, i) => {
+        gsap.set(circle, { scale: 0.8, backgroundColor: "#0A051E", borderColor: "#334155" });
+        gsap.set(cardRefs.current[i], { opacity: 0, y: 20 });
+      });
 
-      if (descRef.current) {
-        gsap.fromTo(descRef.current,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: descRef.current,
-              start: "top bottom-=50",
-              end: "top center",
-              scrub: 0.5,
-            }
-          }
-        );
-      }
+      const mm = gsap.matchMedia();
 
-      gsap.fromTo(lineRef.current,
-        { scaleX: 0, scaleY: 0 },
-        {
-          scaleX: window.innerWidth >= 768 ? 1 : 1, 
-          scaleY: window.innerWidth < 768 ? 1 : 1,
-          ease: "none",
+      mm.add({
+        isDesktop: "(min-width: 768px)",
+        isMobile: "(max-width: 767px)",
+      }, (context) => {
+        // @ts-ignore
+        const { isDesktop, isMobile } = context.conditions;
+
+        if (isMobile) {
+          gsap.set(lineFillRef.current, { scaleX: 1, scaleY: 0, transformOrigin: "top center" });
+        } else {
+          gsap.set(lineFillRef.current, { scaleX: 0, scaleY: 1, transformOrigin: "left center" });
+        }
+
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top center+=100",
-            end: "center center",
-            scrub: 0.3,
+            pin: true, 
+            start: "center center", 
+            end: isMobile ? "+=800" : "+=1500",
+            scrub: 1,
           }
-        }
-      );
+        });
 
-      stepRefs.current.forEach((stepEl, i) => {
-        if (!stepEl) return;
-
-        const iconEl = iconRefs.current[i];
-        const cardEl = cardRefs.current[i];
-
-        if (iconEl) {
-          gsap.fromTo(iconEl,
-            { 
-              scale: 0, 
-              opacity: 0, 
-              rotation: -180,
-              y: 50
-            },
-            {
-              scale: 1,
-              opacity: 1,
-              rotation: 0,
-              y: 0,
-              duration: 1,
-              ease: "back.out(1.7)",
-              scrollTrigger: {
-                trigger: stepEl,
-                start: "top bottom-=100",
-                end: "top center",
-                scrub: 0.5,
-              }
-            }
-          );
-        }
-
-        if (cardEl) {
-          gsap.fromTo(cardEl,
-            { 
-              opacity: 0, 
-              y: 60,
-              scale: 0.9
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.8,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: stepEl,
-                start: "top bottom-=50",
-                end: "top center",
-                scrub: 0.6,
-              }
-            }
-          );
-
-          gsap.to(cardEl,
-            {
-              y: -20,
-              scrollTrigger: {
-                trigger: stepEl,
-                start: "top center",
-                end: "bottom top",
-                scrub: true,
-              }
-            }
-          );
-        }
+        tl.to(circleRefs.current[0], { scale: 1, borderColor: "#D8B4FE", duration: 0.5 }, 0)
+          .to(cardRefs.current[0], { opacity: 1, y: 0, duration: 0.5 }, 0)
+          .to(lineFillRef.current, { scaleX: isDesktop ? 0.5 : 1, scaleY: isDesktop ? 1 : 0.5, ease: "none", duration: 2 }, ">")
+          .to(circleRefs.current[1], { scale: 1, borderColor: "#D8B4FE", duration: 0.5 }, ">-0.5")
+          .to(cardRefs.current[1], { opacity: 1, y: 0, duration: 0.5 }, "<")
+          .to(lineFillRef.current, { scaleX: 1, scaleY: 1, ease: "none", duration: 2 }, ">")
+          .to(circleRefs.current[2], { scale: 1, borderColor: "#D8B4FE", duration: 0.5 }, ">-0.5")
+          .to(cardRefs.current[2], { opacity: 1, y: 0, duration: 0.5 }, "<")
+          .to({}, { duration: 1 });
       });
     }, containerRef);
 
@@ -251,75 +78,73 @@ export function HowItWorks() {
   return (
     <section 
       ref={containerRef} 
-      id="how-it-works" 
-      className="py-32 bg-background relative overflow-hidden"
+      className="bg-[#0A051E] relative z-20 overflow-hidden text-white flex flex-col justify-center py-16 md:py-32"
     >
+      <div className="absolute z-0 pointer-events-none top-0 left-0 p-4 w-20 h-20 opacity-60 md:p-0 md:w-[400px] md:h-[400px] md:top-1/2 md:-translate-y-1/2 md:left-0 md:-translate-x-[60%] md:opacity-30">
+        <div className="relative w-full h-full">
+          <Image src="/lock.png" alt="Lock Left" fill className="object-contain" />
+        </div>
+      </div>
+      
+      <div className="absolute z-0 pointer-events-none hidden md:block md:w-[400px] md:h-[400px] md:top-1/2 md:-translate-y-1/2 md:right-0 md:translate-x-[45%] md:opacity-30">
+        <div className="relative w-full h-full">
+          <Image src="/lock.png" alt="Lock Right" fill className="object-contain" />
+        </div>
+      </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
-          <h2 
-            ref={titleRef}
-            className="text-4xl md:text-5xl font-bold text-[#F1F7F6] mb-4"
-          >
-            How It Works
-          </h2>
-          <p 
-            ref={descRef}
-            className="text-[#94A3B8] max-w-xl mx-auto"
-          >
-            Privasi tingkat militer bertemu kemudahan penggunaan dalam 3 langkah.
-          </p>
+        <div className="text-center mb-10 md:mb-20 pl-8 md:pl-0"> 
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-6">How It Works</h2>
         </div>
 
-        <div className="relative grid md:grid-cols-3 gap-12 md:gap-8">
-          <div className="absolute z-0 left-1/2 top-[48px] bottom-auto h-[calc(100%-96px)] w-[2px] -translate-x-1/2 md:left-[16.666%] md:top-[60px] md:w-[66.668%] md:h-[2px] md:translate-x-0 md:bottom-auto md:right-auto bg-[#1e1b2e]"
+        <div className="relative max-w-6xl mx-auto">
+          <div 
+            ref={lineTrackRef}
+            className="absolute bg-slate-700/50 z-0 left-5 top-5 bottom-32 w-[3px] md:left-[16.66%] md:top-[1.5rem] md:bottom-auto md:w-[66.66%] md:h-[3px]"
           >
             <div 
-              ref={lineRef}
-              className="w-full h-full bg-linear-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] origin-top md:origin-left"
-              style={{ 
-                transform: 'scale(0)' 
-              }} 
+              ref={lineFillRef}
+              className="absolute top-0 left-0 w-full h-full bg-gradient-to-b md:bg-gradient-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] origin-top md:origin-left"
             />
           </div>
 
-          {steps.map((step, i) => (
-            <div
-              key={i}
-              ref={(el) => { stepRefs.current[i] = el; }}
-              className="relative z-10 flex flex-col items-center text-center group"
-            >
-              <div
-                ref={(el) => { iconRefs.current[i] = el; }}
-                className={`w-24 h-24 rounded-2xl p-[2px] mb-8 relative z-20 transition-transform duration-300 group-hover:-translate-y-2 will-change-transform`}
-              >
-                <div className={`absolute inset-0 rounded-2xl bg-linear-to-r ${step.color}`} />
-                <div className="relative w-full h-full bg-background rounded-xl flex items-center justify-center overflow-hidden z-10">
-                    {step.icon}
-                </div>
-              </div>
-
-              <div
-                ref={(el) => { cardRefs.current[i] = el; }}
-                className="bg-[#0A051E]/80 backdrop-blur-sm border border-white/5 p-6 rounded-2xl hover:bg-[#120B2E] transition-colors duration-300 w-full min-h-[160px] flex flex-col justify-start mt-4"
-              >
-                <div className="mb-3 h-8 flex items-center justify-center">
-                  <ScrollFloat 
-                    animationDuration={1.2} 
-                    ease="power3.out"
-                    scrollStart="top bottom-=10%"
-                    textClassName={`text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${step.color}`}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 relative z-10">
+            {steps.map((step, i) => (
+              <div key={step.id} className="relative flex md:flex-col items-start md:items-center group min-h-[140px] md:min-h-0">
+                <div className="absolute left-0 md:static flex-shrink-0 z-10">
+                  <div 
+                    ref={el => { circleRefs.current[i] = el }}
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 bg-gradient-to-br from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] bg-clip-border border-transparent bg-[#0A051E] flex items-center justify-center"
                   >
-                    {step.title}
-                  </ScrollFloat>
+                    <div className="w-full h-full rounded-full bg-[#0A051E] flex items-center justify-center">
+                      <span className="text-sm md:text-lg font-bold text-white">{step.id}</span>
+                    </div>
+                  </div>
                 </div>
+                
+                <div 
+                  ref={el => { cardRefs.current[i] = el }}
+                  className="ml-14 md:ml-0 md:mt-8 w-full"
+                >
+                  <div className="relative overflow-hidden group bg-white/5 backdrop-blur-md p-5 md:p-6 rounded-2xl md:text-center min-h-[100px] flex flex-col justify-center transition-all duration-300">
+                    <div 
+                      className="absolute inset-0 rounded-2xl border border-white/40 pointer-events-none z-20" 
+                      style={{ 
+                        maskImage: 'linear-gradient(to bottom, black 0%, transparent 60%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 60%)'
+                      }}
+                    />
 
-                <p className="text-[#94A3B8] text-sm leading-relaxed">
-                  {step.desc}
-                </p>
+                    <div className="absolute bottom-0 right-0 w-24 h-24 rounded-full blur-[40px] translate-x-1/2 translate-y-1/2 opacity-20 group-hover:opacity-60 transition-all duration-500 pointer-events-none z-0 bg-[#8B5CF6]" />
+
+                    <p className="text-[#94A3B8] text-sm md:text-base relative z-10">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
