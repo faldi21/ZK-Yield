@@ -3,14 +3,17 @@
 import { useState } from 'react';
 import { TrendingUp } from 'lucide-react';
 import { Timeframe } from '@/lib/types/dashboard';
-import { TIMEFRAME_OPTIONS } from '@/lib/constants/dashboard';
+import { TIMEFRAME_OPTIONS, MOCK_DASHBOARD_SUMMARY } from '@/lib/constants/dashboard';
 
 interface PortfolioOverviewProps {
-  totalValue: number;
-  percentageChange: number;
+  totalValue?: number; // Menjadi optional karena akan menggunakan data dari mock
+  percentageChange?: number; // Menjadi optional karena akan menggunakan data dari mock
 }
 
-export function PortfolioOverview({ totalValue, percentageChange }: PortfolioOverviewProps) {
+export function PortfolioOverview({ 
+  totalValue = MOCK_DASHBOARD_SUMMARY.tvlUsd, // Default ke data mock
+  percentageChange = MOCK_DASHBOARD_SUMMARY.percentageChange // Default ke data mock
+}: PortfolioOverviewProps) {
   const [timeframe, setTimeframe] = useState<Timeframe>('1W');
 
   return (
@@ -22,10 +25,13 @@ export function PortfolioOverview({ totalValue, percentageChange }: PortfolioOve
             <TrendingUp size={16} className="text-text-tertiary"/>
           </div>
           <div className="text-5xl md:text-6xl font-bold text-text-primary mb-1">
-            0.139 ETH
+            {MOCK_DASHBOARD_SUMMARY.tvlEth.toFixed(3)} ETH
           </div>
           <div className="text-text-tertiary">
-            ≈ ${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            ≈ ${totalValue.toLocaleString('en-US', { 
+              minimumFractionDigits: 2, 
+              maximumFractionDigits: 2 
+            })}
           </div>
         </div>
       </div>
@@ -38,18 +44,34 @@ export function PortfolioOverview({ totalValue, percentageChange }: PortfolioOve
               <stop offset="100%" stopColor="var(--bg-surface)" stopOpacity="0"/>
             </linearGradient>
           </defs>
+          {/* Area fill dengan lebih banyak titik/lekukan */}
           <path 
-            d="M 0 70 Q 50 60, 100 55 Q 150 50, 200 45 Q 250 35, 300 25 L 300 100 L 0 100 Z" 
+            d="M 0 70 
+               Q 25 65, 50 62
+               Q 75 58, 100 55
+               Q 125 52, 150 48
+               Q 175 42, 200 45
+               Q 225 38, 250 35
+               Q 275 30, 300 25
+               L 300 100 
+               L 0 100 Z" 
             fill="url(#portfolioGradient)"
           />
+          {/* Garis dengan lebih banyak lekukan */}
           <path 
-            d="M 0 70 Q 50 60, 100 55 Q 150 50, 200 45 Q 250 35, 300 25" 
+            d="M 0 70 
+               Q 25 65, 50 62
+               Q 75 58, 100 55
+               Q 125 52, 150 48
+               Q 175 42, 200 45
+               Q 225 38, 250 35
+               Q 275 30, 300 25" 
             fill="none" 
             stroke="#F59E0B"
             strokeWidth="2" 
             strokeLinecap="round"
+            strokeLinejoin="round"
           />
-          <circle cx="300" cy="25" r="3" fill="#F59E0B"/>
         </svg>
         
         <div className="absolute bottom-2 right-2 flex items-center gap-1 px-2 py-1 bg-success/10 border border-success/30 rounded">
@@ -58,15 +80,15 @@ export function PortfolioOverview({ totalValue, percentageChange }: PortfolioOve
         </div>
       </div>
 
-      <div className="flex gap-4 text-xs border-t border-border-subtle pt-3">
+      <div className="flex gap-2 text-xs border-t border-border-subtle pt-3">
         {TIMEFRAME_OPTIONS.map((period) => (
           <button
             key={period}
             onClick={() => setTimeframe(period)}
-            className={`transition-colors ${
+            className={`px-3 py-1.5 rounded-md cursor-pointer ${
               timeframe === period 
-                ? 'text-text-primary font-semibold' 
-                : 'text-text-tertiary hover:text-text-secondary'
+                ? 'bg-bg-elevated text-text-primary font-semibold border border-border-medium' 
+                : 'text-text-tertiary hover:text-text-secondary hover:bg-bg-elevated/50'
             }`}
           >
             {period}

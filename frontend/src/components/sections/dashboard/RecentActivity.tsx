@@ -40,7 +40,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
         ))}
       </div>
 
-      <button className="w-full mt-4 text-sm text-accent hover:text-accent-hover font-medium transition-colors">
+      <button className="w-full mt-4 text-sm text-accent hover:text-accent-hover font-medium transition-all duration-200 hover:translate-x-1 cursor-pointer">
         View all activity →
       </button>
     </div>

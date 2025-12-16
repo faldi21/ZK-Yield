@@ -17,7 +17,7 @@ export function FinalCTA() {
           className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight"
         >
           Ready to Earn <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#C4B5FD] to-[#60A5FA]">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-[#A78BFA] via-[#C4B5FD] to-[#60A5FA]">
              Privately?
           </span>
         </motion.h2>

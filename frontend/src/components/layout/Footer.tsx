@@ -49,7 +49,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="w-full h-[1px] bg-white/10 mb-8" />
+        <div className="w-full h-px bg-white/10 mb-8" />
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">

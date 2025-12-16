@@ -15,26 +15,9 @@ export function ActivePositions({ positions }: ActivePositionsProps) {
     <div className="bg-bg-surface border border-border-subtle rounded-lg p-6">
       <div className="flex justify-between items-center mb-4">
         <div className="flex gap-1 bg-bg-elevated p-1 rounded-md">
-          <button 
-            onClick={() => setActiveTab('positions')}
-            className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
-              activeTab === 'positions' 
-                ? 'bg-bg-surface text-text-primary' 
-                : 'text-text-tertiary hover:text-text-secondary'
-            }`}
-          >
+          <h2 className="text-lg font-bold text-text-primary">
             Your positions
-          </button>
-          <button 
-            onClick={() => setActiveTab('vaults')}
-            className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
-              activeTab === 'vaults' 
-                ? 'bg-bg-surface text-text-primary' 
-                : 'text-text-tertiary hover:text-text-secondary'
-            }`}
-          >
-            Vaults
-          </button>
+          </h2>
         </div>
         <h2 className="text-lg font-bold text-text-primary">
           Earn Positions ({positions.length})
@@ -53,7 +36,7 @@ export function ActivePositions({ positions }: ActivePositionsProps) {
           </thead>
           <tbody>
             {positions.map((position, idx) => (
-              <tr key={idx} className="border-b border-border-subtle hover:bg-bg-elevated transition-colors cursor-pointer">
+              <tr key={idx} className="border-b border-border-subtle hover:bg-bg-elevated transition-colors">
                 <td className="py-4 px-2">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center shrink-0">

@@ -1,6 +1,6 @@
 'use client';
 
-import Galaxy from '@/components/ui/Galaxy';
+// import Galaxy from '@/components/ui/Galaxy';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      <div className="absolute inset-0 z-0">
+      {/* <div className="absolute inset-0 z-0">
         <Galaxy 
           mouseRepulsion={true}
           mouseInteraction={true}
@@ -20,8 +20,8 @@ export function Hero() {
           rotationSpeed={0.1}
           transparent={true} 
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50 pointer-events-none" />
-      </div>
+        <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-background/50 pointer-events-none" />
+      </div> */}
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center justify-center pt-20 pointer-events-none">
         <div className="text-center max-w-4xl mx-auto">
           <motion.h1 
@@ -31,7 +31,7 @@ export function Hero() {
             className="text-5xl md:text-7xl font-bold leading-tight mb-6 text-[#F1F7F6] font-display"
           >
             Privacy-First <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6]">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6]">
               Yield Aggregator
             </span>
           </motion.h1>

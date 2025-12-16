@@ -100,21 +100,21 @@ export function HowItWorks() {
         <div className="relative max-w-6xl mx-auto">
           <div 
             ref={lineTrackRef}
-            className="absolute bg-slate-700/50 z-0 left-5 top-5 bottom-32 w-[3px] md:left-[16.66%] md:top-[1.5rem] md:bottom-auto md:w-[66.66%] md:h-[3px]"
+            className="absolute bg-slate-700/50 z-0 left-5 top-5 bottom-32 w-[3px] md:left-[16.66%] md:top-6 md:bottom-auto md:w-[66.66%] md:h-[3px]"
           >
             <div 
               ref={lineFillRef}
-              className="absolute top-0 left-0 w-full h-full bg-gradient-to-b md:bg-gradient-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] origin-top md:origin-left"
+              className="absolute top-0 left-0 w-full h-full bg-linear-to-b md:bg-linear-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] origin-top md:origin-left"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8 relative z-10">
             {steps.map((step, i) => (
               <div key={step.id} className="relative flex md:flex-col items-start md:items-center group min-h-[140px] md:min-h-0">
-                <div className="absolute left-0 md:static flex-shrink-0 z-10">
+                <div className="absolute left-0 md:static shrink-0 z-10">
                   <div 
                     ref={el => { circleRefs.current[i] = el }}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 bg-gradient-to-br from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] bg-clip-border border-transparent bg-[#0A051E] flex items-center justify-center"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 bg-linear-to-br from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] bg-clip-border border-transparent bg-[#0A051E] flex items-center justify-center"
                   >
                     <div className="w-full h-full rounded-full bg-[#0A051E] flex items-center justify-center">
                       <span className="text-sm md:text-lg font-bold text-white">{step.id}</span>
@@ -135,7 +135,7 @@ export function HowItWorks() {
                       }}
                     />
 
-                    <div className="absolute bottom-0 right-0 w-24 h-24 rounded-full blur-[40px] translate-x-1/2 translate-y-1/2 opacity-20 group-hover:opacity-60 transition-all duration-500 pointer-events-none z-0 bg-[#8B5CF6]" />
+                    <div className="absolute bottom-0 right-0 w-24 h-24 rounded-full blur-2xl translate-x-1/2 translate-y-1/2 opacity-20 group-hover:opacity-60 transition-all duration-500 pointer-events-none z-0 bg-[#8B5CF6]" />
 
                     <p className="text-[#94A3B8] text-sm md:text-base relative z-10">
                       {step.desc}

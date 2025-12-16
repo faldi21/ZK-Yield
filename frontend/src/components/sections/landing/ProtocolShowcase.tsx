@@ -95,7 +95,7 @@ export function ProtocolShowcase() {
                     <h3 className="text-2xl font-bold tracking-tight text-white uppercase text-right drop-shadow-md">
                       {p.name}
                     </h3>
-                    <div className="w-full h-[1px] bg-white/10 mt-4"></div>
+                    <div className="w-full h-px bg-white/10 mt-4"></div>
                   </div>
 
                   <div className="flex justify-between items-end mt-auto w-full gap-2">
@@ -103,7 +103,7 @@ export function ProtocolShowcase() {
                       <div className="text-[#94A3B8] text-[9px] uppercase tracking-wider font-semibold mb-1">
                         TOTAL VALUE LOCKED
                       </div>
-                      <div className="text-lg font-bold bg-gradient-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] text-transparent bg-clip-text">
+                      <div className="text-lg font-bold bg-linear-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] text-transparent bg-clip-text">
                         {p.tvl}
                       </div>
                     </div>
@@ -111,7 +111,7 @@ export function ProtocolShowcase() {
                       <div className="text-[#94A3B8] text-[9px] uppercase tracking-wider font-semibold mb-1 text-right">
                         VARIABEL APY
                       </div>
-                      <div className="text-lg font-bold bg-gradient-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] text-transparent bg-clip-text">
+                      <div className="text-lg font-bold bg-linear-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] text-transparent bg-clip-text">
                         {p.apy}
                       </div> 
                     </div>

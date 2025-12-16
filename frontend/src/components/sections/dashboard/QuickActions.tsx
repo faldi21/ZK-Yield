@@ -13,14 +13,14 @@ export function QuickActions({ totalEarned, activePositions, averageApy }: Quick
       <h2 className="text-lg font-bold text-text-primary mb-4">Quick Actions</h2>
       
       <div className="space-y-3">
-        <button className="w-full px-4 py-3 bg-accent hover:bg-accent-hover text-text-primary font-semibold rounded-md flex items-center justify-center gap-2 transition-all duration-base">
+        <button className="w-full px-4 py-3 bg-accent bg-[#3165B9] hover:bg-accent-hover text-text-primary font-semibold rounded-md flex items-center justify-center gap-2 transition-all duration-base cursor-pointer">
           <Wallet size={18}/>
           Deposit Funds
         </button>
 
-        <button disabled className="w-full px-4 py-3 bg-bg-elevated border border-border-subtle text-text-tertiary font-semibold rounded-md flex items-center justify-center gap-2 cursor-not-allowed">
+        <button disabled className="w-full px-4 py-3 bg-bg-elevated border border-border-subtle text-text-tertiary font-semibold rounded-md flex items-center justify-center gap-2 cursor-pointer">
           <DollarSign size={18}/>
-          Withdraw All (Coming Soon)
+          Withdraw All
         </button>
       </div>
 

@@ -41,7 +41,7 @@ export function ProblemSolution() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 relative z-10">
               <div className="pb-6 md:pb-8 md:pr-8 border-b-2 border-white/20 md:border-r-2 md:border-white/20">
-                <h3 className="text-xl md:text-2xl font-bold text-center bg-gradient-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] text-transparent bg-clip-text">
+                <h3 className="text-xl md:text-2xl font-bold text-center bg-linear-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] text-transparent bg-clip-text">
                   Viegel Protocol
                 </h3>
               </div>
@@ -57,7 +57,7 @@ export function ProblemSolution() {
                   {solutions.map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <CheckCircle2 className="text-green-500 shrink-0 mt-0.5" size={20} />
-                      <span className="text-sm md:text-base bg-gradient-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] text-transparent bg-clip-text">
+                      <span className="text-sm md:text-base bg-linear-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#3B82F6] text-transparent bg-clip-text">
                         {item}
                       </span>
                     </li>
@@ -86,7 +86,7 @@ export function ProblemSolution() {
                 hover: { scale: 1, opacity: 0.6 }
               }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="absolute bottom-0 right-0 w-40 h-40 rounded-full blur-[40px] translate-x-1/2 translate-y-1/2 opacity-20 group-hover:opacity-60 transition-all duration-500 pointer-events-none z-0 bg-[#8B5CF6]"
+              className="absolute bottom-0 right-0 w-40 h-40 rounded-full blur-2xl translate-x-1/2 translate-y-1/2 opacity-20 group-hover:opacity-60 transition-all duration-500 pointer-events-none z-0 bg-[#8B5CF6]"
             />
           </motion.div>
         </div>
