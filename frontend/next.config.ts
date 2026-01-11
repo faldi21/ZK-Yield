@@ -21,7 +21,15 @@ const nextConfig: NextConfig = {
         net: false,
         tls: false,
         child_process: false,
+        // Tambahan untuk MetaMask SDK
+        '@react-native-async-storage/async-storage': false,
       };
+
+      // Exclude thread-stream test files
+      config.module.rules.push({
+        test: /node_modules\/thread-stream\/(test|bench)/,
+        loader: 'ignore-loader'
+      });
     }
 
     // Exclude problematic packages from bundling
@@ -35,6 +43,9 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+
+  // FIX: Ganti dari experimental.serverComponentsExternalPackages
+  serverExternalPackages: ['pino', 'thread-stream', 'pino-pretty'],
 
   // Transpile problematic packages
   transpilePackages: [
