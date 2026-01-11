@@ -233,7 +233,7 @@ export function KYCVerification() {
                   🎉 Compliance Granted! You can now use the platform.
                 </p>
                 <a
-                  href={`https://sepolia.basescan.org/tx/${hash}`}
+                  href={`https://sepolia.mantlescan.xyz/tx/${hash}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-blue-400 hover:text-blue-300 mt-2 inline-block"

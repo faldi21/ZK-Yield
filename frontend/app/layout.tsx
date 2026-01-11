@@ -1,13 +1,14 @@
-import './globals.css';
+// app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import './globals.css';
 import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ZK-Yield',
-  description: 'Privacy-Preserving Yield Aggregator',
+  title: 'ZK-Yield - Privacy-Preserving Yield Aggregator',
+  description: 'Compliant DeFi yields with zero-knowledge privacy',
 };
 
 export default function RootLayout({

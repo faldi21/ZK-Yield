@@ -1,10 +1,10 @@
 // lib/zk-proof.ts
 // Zero-Knowledge Proof generation utilities
 
-import { utils } from 'snarkjs';
+import { utils } from "snarkjs";
 
 // For browser compatibility
-const snarkjs = typeof window !== 'undefined' ? require('snarkjs') : null;
+const snarkjs = typeof window !== "undefined" ? require("snarkjs") : null;
 
 export interface KYCCredential {
   credentialHash: string;
@@ -26,11 +26,14 @@ export function generateSalt(): string {
   // Generate 32 random bytes
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
-  
+
   // Convert to hex string
-  return '0x' + Array.from(array)
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+  return (
+    "0x" +
+    Array.from(array)
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("")
+  );
 }
 
 /**
@@ -55,11 +58,11 @@ export function generateCredentialHash(
   // In production: proper cryptographic hash
   const data = `${name}-${country}-${timestamp}`;
   let hash = 0n;
-  
+
   for (let i = 0; i < data.length; i++) {
     hash = (hash * 31n + BigInt(data.charCodeAt(i))) % BigInt(2n ** 253n);
   }
-  
+
   return hash.toString();
 }
 
@@ -82,12 +85,12 @@ export async function generateKYCProof(
   allowedJurisdiction: number
 ): Promise<{ proof: ZKProof; commitment: string }> {
   if (!snarkjs) {
-    throw new Error('SnarkJS not available (server-side rendering)');
+    throw new Error("SnarkJS not available (server-side rendering)");
   }
 
   try {
-    console.log('🔐 Generating ZK proof...');
-    console.log('Credential:', credential);
+    console.log("🔐 Generating ZK proof...");
+    console.log("Credential:", credential);
 
     // Calculate commitment
     const commitment = calculateCommitment(
@@ -95,7 +98,7 @@ export async function generateKYCProof(
       credential.salt
     );
 
-    console.log('Commitment:', commitment);
+    console.log("Commitment:", commitment);
 
     // Prepare circuit inputs
     const input = {
@@ -106,13 +109,13 @@ export async function generateKYCProof(
       commitment: commitment,
     };
 
-    console.log('Circuit inputs:', input);
+    console.log("Circuit inputs:", input);
 
     // Load WASM and zkey files
-    const wasmPath = '/circuits/kyc-verification.wasm';
-    const zkeyPath = '/circuits/kyc-verification_final.zkey';
+    const wasmPath = "/circuits/kyc-verification.wasm";
+    const zkeyPath = "/circuits/kyc-verification_final.zkey";
 
-    console.log('Loading circuit files...');
+    console.log("Loading circuit files...");
 
     // Generate witness and proof
     const { proof, publicSignals } = await snarkjs.groth16.fullProve(
@@ -121,9 +124,9 @@ export async function generateKYCProof(
       zkeyPath
     );
 
-    console.log('✅ Proof generated!');
-    console.log('Proof:', proof);
-    console.log('Public signals:', publicSignals);
+    console.log("✅ Proof generated!");
+    console.log("Proof:", proof);
+    console.log("Public signals:", publicSignals);
 
     // Convert proof to format expected by smart contract
     const formattedProof: ZKProof = {
@@ -141,7 +144,7 @@ export async function generateKYCProof(
       commitment,
     };
   } catch (error) {
-    console.error('❌ Error generating proof:', error);
+    console.error("❌ Error generating proof:", error);
     throw error;
   }
 }
@@ -154,27 +157,23 @@ export async function verifyProof(
   publicSignals: string[]
 ): Promise<boolean> {
   if (!snarkjs) {
-    throw new Error('SnarkJS not available');
+    throw new Error("SnarkJS not available");
   }
 
   try {
-    const vkeyPath = '/circuits/kyc-verification_verification_key.json';
-    
+    const vkeyPath = "/circuits/kyc-verification_verification_key.json";
+
     // Fetch verification key
     const vkeyResponse = await fetch(vkeyPath);
     const vkey = await vkeyResponse.json();
 
     // Verify proof
-    const isValid = await snarkjs.groth16.verify(
-      vkey,
-      publicSignals,
-      proof
-    );
+    const isValid = await snarkjs.groth16.verify(vkey, publicSignals, proof);
 
-    console.log('Proof verification result:', isValid);
+    console.log("Proof verification result:", isValid);
     return isValid;
   } catch (error) {
-    console.error('Error verifying proof:', error);
+    console.error("Error verifying proof:", error);
     return false;
   }
 }
@@ -184,9 +183,17 @@ export async function verifyProof(
  */
 export function formatProofForContract(proof: ZKProof) {
   return {
-    a: proof.a,
-    b: proof.b,
-    c: proof.c,
+    a: proof.a.map((x) => BigInt(x)) as [bigint, bigint],
+    b: proof.b.map((row) => row.map((x) => BigInt(x))) as [
+      [bigint, bigint],
+      [bigint, bigint],
+    ],
+    c: proof.c.map((x) => BigInt(x)) as [bigint, bigint],
+    publicSignals: proof.publicSignals.map((x) => BigInt(x)) as [
+      bigint,
+      bigint,
+      bigint,
+    ],
   };
 }
 
@@ -198,7 +205,7 @@ export function generateMockCredential(
   jurisdiction: number
 ): KYCCredential {
   const timestamp = Date.now();
-  const credentialHash = generateCredentialHash(name, 'US', timestamp);
+  const credentialHash = generateCredentialHash(name, "US", timestamp);
   const salt = generateSalt();
 
   return {
@@ -218,10 +225,10 @@ export async function generateBalanceProof(
 ): Promise<{ proof: ZKProof; commitment: string }> {
   // For MVP: reuse KYC circuit structure
   // In production: separate balance circuit
-  
-  console.log('💰 Generating balance proof...');
-  console.log('Balance:', balance.toString());
-  console.log('Threshold:', threshold.toString());
+
+  console.log("💰 Generating balance proof...");
+  console.log("Balance:", balance.toString());
+  console.log("Threshold:", threshold.toString());
 
   // Generate mock credential
   const salt = generateSalt();
@@ -238,10 +245,10 @@ export async function generateBalanceProof(
 
   try {
     const result = await generateKYCProof(mockCredential, 1);
-    console.log('✅ Balance proof generated!');
+    console.log("✅ Balance proof generated!");
     return result;
   } catch (error) {
-    console.error('❌ Error generating balance proof:', error);
+    console.error("❌ Error generating balance proof:", error);
     throw error;
   }
 }

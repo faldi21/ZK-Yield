@@ -13,18 +13,18 @@ export function DepositWithdraw() {
   const TESTNET_MIN = parseEther('0.001');
   const { data: ethBalance } = useBalance({ address });
   const { data: userShares, refetch: refetchShares } = useReadContract({
-    address: CONTRACTS.strategyVault,
+    address: "0x727832CCA0955475ad28Cdb94e96AFe77A4A6e60",
     abi: STRATEGY_VAULT_ABI,
     functionName: 'shares',
     args: address ? [address] : undefined,
   });
   const { data: totalShares } = useReadContract({
-    address: CONTRACTS.strategyVault,
+    address: "0x727832CCA0955475ad28Cdb94e96AFe77A4A6e60",
     abi: STRATEGY_VAULT_ABI,
     functionName: 'totalShares',
   });
   const { data: tvl } = useReadContract({
-    address: CONTRACTS.strategyVault,
+    address: "0x727832CCA0955475ad28Cdb94e96AFe77A4A6e60",
     abi: STRATEGY_VAULT_ABI,
     functionName: 'totalValueLocked',
   });
@@ -35,7 +35,7 @@ export function DepositWithdraw() {
     if (!depositAmount) return;
     const amount = parseEther(depositAmount);
     if (amount < TESTNET_MIN) {
-      setError('Minimum: 0.001 ETH');
+      setError('Minimum: 0.001 MNT');
       return;
     }
     try {
@@ -44,10 +44,10 @@ export function DepositWithdraw() {
       const proofResult = await generateBalanceProof(ethBalance?.value || 0n, TESTNET_MIN);
       const formattedProof = formatProofForContract(proofResult.proof);
       writeContract({
-        address: CONTRACTS.strategyVault,
+        address: "0x727832CCA0955475ad28Cdb94e96AFe77A4A6e60",
         abi: STRATEGY_VAULT_ABI,
         functionName: 'deposit',
-        args: [formattedProof.a, formattedProof.b, formattedProof.c, BigInt(proofResult.commitment)],
+        args: [formattedProof.a, formattedProof.b, formattedProof.c, formattedProof.publicSignals],
         value: amount,
       });
     } catch (err: any) {
@@ -62,7 +62,7 @@ export function DepositWithdraw() {
     try {
       setError(null);
       writeContract({
-        address: CONTRACTS.strategyVault,
+        address: "0x727832CCA0955475ad28Cdb94e96AFe77A4A6e60",
         abi: STRATEGY_VAULT_ABI,
         functionName: 'withdraw',
         args: [userShares],
@@ -88,7 +88,7 @@ export function DepositWithdraw() {
 
   if (!address) return null;
   if (isSuccess) refetchShares();
-  const hasShares = userShares && userShares > 0n;
+  const hasShares = userShares && (userShares as bigint) > 0n;
 
   return (
     <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
@@ -100,12 +100,12 @@ export function DepositWithdraw() {
         </div>
         <div className="bg-gray-900 rounded-lg p-4">
           <div className="text-sm text-gray-400 mb-1">Your Value</div>
-          <div className="text-2xl font-bold">{calculateUserValue()} ETH</div>
+          <div className="text-2xl font-bold">{calculateUserValue()} MNT</div>
         </div>
         <div className="bg-gray-900 rounded-lg p-4">
           <div className="text-sm text-gray-400 mb-1">Wallet Balance</div>
           <div className="text-2xl font-bold">
-            {ethBalance ? parseFloat(formatEther(ethBalance.value)).toFixed(4) : '0'} ETH
+            {ethBalance ? parseFloat(formatEther(ethBalance.value)).toFixed(4) : '0'} MNT
           </div>
         </div>
       </div>
@@ -116,16 +116,16 @@ export function DepositWithdraw() {
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">Amount (ETH)</label>
+            <label className="block text-sm font-medium mb-2">Amount (MNT)</label>
             <input type="number" step="0.001" value={depositAmount} onChange={(e) => setDepositAmount(e.target.value)} placeholder="0.01" className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-500" />
-            <p className="text-xs text-gray-500 mt-1">Minimum: 0.001 ETH</p>
+            <p className="text-xs text-gray-500 mt-1">Minimum: 0.001 MNT</p>
           </div>
           {error && <div className="bg-red-900/20 border border-red-700 rounded-lg p-3 text-sm text-red-300">{error}</div>}
-          {isSuccess && depositHash && <div className="bg-green-900/20 border border-green-700 rounded-lg p-4"><p className="text-green-300 font-medium mb-2">Success</p><a href={'https://sepolia.basescan.org/tx/' + depositHash} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400">View tx</a></div>}
+          {isSuccess && depositHash && <div className="bg-green-900/20 border border-green-700 rounded-lg p-4"><p className="text-green-300 font-medium mb-2">Success</p><a href={'https://sepolia.mantlescan.xyz/tx/' + depositHash} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-400">View tx</a></div>}
           <button onClick={handleDeposit} disabled={isGeneratingProof || isPending} className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-700 disabled:cursor-not-allowed rounded-lg font-semibold">{isGeneratingProof ? 'Generating Proof...' : isPending ? 'Depositing...' : 'Deposit with ZK Proof'}</button>
         </div>
       </div>
-      {hasShares && <div className="pt-6 border-t border-gray-700"><h3 className="text-lg font-semibold mb-3">Withdraw</h3><div className="bg-gray-900 rounded-lg p-4 mb-4"><div className="flex justify-between mb-2"><span className="text-sm text-gray-400">Shares</span><span className="font-bold">{formatShares(userShares)}</span></div><div className="flex justify-between"><span className="text-sm text-gray-400">Value</span><span className="font-bold">{calculateUserValue()} ETH</span></div></div><button onClick={handleWithdraw} disabled={isPending} className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 rounded-lg font-semibold">Withdraw All</button></div>}
+      {hasShares && <div className="pt-6 border-t border-gray-700"><h3 className="text-lg font-semibold mb-3">Withdraw</h3><div className="bg-gray-900 rounded-lg p-4 mb-4"><div className="flex justify-between mb-2"><span className="text-sm text-gray-400">Shares</span><span className="font-bold">{formatShares(userShares)}</span></div><div className="flex justify-between"><span className="text-sm text-gray-400">Value</span><span className="font-bold">{calculateUserValue()} MNT</span></div></div><button onClick={handleWithdraw} disabled={isPending} className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 rounded-lg font-semibold">Withdraw All</button></div>}
     </div>
   );
 }

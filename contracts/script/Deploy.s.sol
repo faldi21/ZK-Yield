@@ -3,7 +3,7 @@ pragma solidity ^0.8.24;
 
 import "forge-std/Script.sol";
 import "../src/ComplianceManager.sol";
-import "../src/StrategyVault.sol";
+import "../src/StrategyVaultV1.sol";
 
 contract MockVerifier {
     function verifyProof(
@@ -19,7 +19,7 @@ contract MockVerifier {
 contract DeployZKYield is Script {
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
-        
+
         vm.startBroadcast(deployerPrivateKey);
 
         // Deploy mock verifiers
@@ -36,10 +36,10 @@ contract DeployZKYield is Script {
 
         // Deploy StrategyVault
         // UPDATED: minBalanceThreshold = 0.001 ETH (instead of 100K)
-        StrategyVault vault = new StrategyVault(
+        StrategyVaultV1 vault = new StrategyVaultV1(
             address(complianceManager),
             address(balanceVerifier),
-            0.001 ether  // 0.001 ETH minimum for testnet!
+            0.001 ether // 0.001 ETH minimum for testnet!
         );
 
         vm.stopBroadcast();
