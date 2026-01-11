@@ -81,8 +81,9 @@ secrets/
 
 #Notes
 *.md
-.md
-*.md*
-wallet.txt
-.txt
-.tar.gz
+!README.md
+*.txt
+*.tar.gz
+*.backup*
+*.bak
+*.old
