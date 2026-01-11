@@ -42,7 +42,7 @@ export function KYCUserManagement() {
         // Mantle Sepolia RPC limits to 10,000 block range
         // We'll fetch in chunks and combine results
         const BLOCK_RANGE = 9999n; // Just under 10k to be safe
-        const MAX_CHUNKS = 10; // Fetch up to 100k blocks total
+        const MAX_CHUNKS = 20; // Fetch up to 200k blocks total
         
         console.log('ComplianceManager address:', CONTRACTS.complianceManager);
         console.log('Current block:', currentBlock.toString());
