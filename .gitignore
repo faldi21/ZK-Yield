@@ -31,12 +31,16 @@ Thumbs.db
 
 # Circuit artifacts
 *.r1cs
-*.wasm
 *.sym
-*.zkey
 *.ptau
 *.wtns
 powersoftau_*
+
+# Ignore wasm/zkey except in frontend/public/circuits
+*.wasm
+*.zkey
+!frontend/public/circuits/*.wasm
+!frontend/public/circuits/*.zkey
 
 # Foundry
 broadcast/
