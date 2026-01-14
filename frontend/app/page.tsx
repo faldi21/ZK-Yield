@@ -116,7 +116,7 @@ export default function LandingPage() {
               © 2026 ZK-Yield. Building the future of private DeFi.
             </p>
             <div className="flex gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Documentation</a>
+              <a href="/docs/" className="text-sm text-muted-foreground hover:text-primary transition-colors">Documentation</a>
               <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Twitter</a>
               <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Discord</a>
             </div>

@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkveilfi_docs=globalThis.webpackChunkveilfi_docs||[]).push([[4583],{6866(i,o,e){e.r(o),e.d(o,{default:()=>r});var s=e(6347),c=e(4848);function r(){return(0,c.jsx)(s.rd,{to:"/docs/introduction/overview"})}}}]);

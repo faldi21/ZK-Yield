@@ -22,13 +22,13 @@ const nextConfig: NextConfig = {
         tls: false,
         child_process: false,
         // Tambahan untuk MetaMask SDK
-        '@react-native-async-storage/async-storage': false,
+        "@react-native-async-storage/async-storage": false,
       };
 
       // Exclude thread-stream test files
       config.module.rules.push({
         test: /node_modules\/thread-stream\/(test|bench)/,
-        loader: 'ignore-loader'
+        loader: "ignore-loader",
       });
     }
 
@@ -45,13 +45,33 @@ const nextConfig: NextConfig = {
   },
 
   // FIX: Ganti dari experimental.serverComponentsExternalPackages
-  serverExternalPackages: ['pino', 'thread-stream', 'pino-pretty'],
+  serverExternalPackages: ["pino", "thread-stream", "pino-pretty"],
 
   // Transpile problematic packages
   transpilePackages: [
     "@walletconnect/ethereum-provider",
     "@walletconnect/universal-provider",
   ],
+
+  // Rewrites to serve docs properly
+  async rewrites() {
+    return [
+      // Redirect /docs to intro page
+      {
+        source: "/docs",
+        destination: "/docs/docs/introduction/context-positioning/index.html",
+      },
+      {
+        source: "/docs/",
+        destination: "/docs/docs/introduction/context-positioning/index.html",
+      },
+      // Handle all internal docs routes (client-side navigation fallback)
+      {
+        source: "/docs/docs/:path*",
+        destination: "/docs/docs/:path*/index.html",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
