@@ -9,10 +9,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl">Z</span>
+              <span className="text-primary-foreground font-bold text-xl">V</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">ZK-Yield</h1>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">VeilFi</h1>
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -82,7 +82,7 @@ export default function LandingPage() {
       {/* Features Grid */}
       <section id="features" className="py-20 bg-secondary/20">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Why ZK-Yield?</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Why VeilFi?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <FeatureCard 
               icon="🔐"
@@ -113,7 +113,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              © 2026 ZK-Yield. Building the future of private DeFi.
+              © 2026 VeilFi. Building the future of private DeFi.
             </p>
             <div className="flex gap-6">
               <a href="/docs/" className="text-sm text-muted-foreground hover:text-primary transition-colors">Documentation</a>
